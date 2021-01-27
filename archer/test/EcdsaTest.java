@@ -13,15 +13,17 @@ public class EcdsaTest {
     	byte[] privBytes = NumberUtil.hexStrToBytes(priKeyHex);
     	byte[] hashBytes = NumberUtil.hexStrToBytes(hashStr);
     	
-    	String sig = Ecdsa.sign(privBytes, hashBytes, Curve.SECP_256_K1);
+    	Ecdsa secp256k1 = Ecdsa.from(Curve.SECP_256_K1);
+    	
+    	String sig = secp256k1.sign(privBytes, hashBytes);
 		System.out.println(sig);
     	
-		byte[] pubBytes = Ecdsa.privateKeyToPublicKey(privBytes);
+		byte[] pubBytes = secp256k1.privateKeyToPublicKey(privBytes);
 		System.out.println(NumberUtil.bytesToHexStr(pubBytes));
 		
-		System.out.println(Ecdsa.verify(pubBytes, hashBytes, sig));
+		System.out.println(secp256k1.verify(pubBytes, hashBytes, sig));
 		
-		byte[] pubBs = Ecdsa.recoverToPublicKey(hashBytes, sig);
+		byte[] pubBs = secp256k1.recoverToPublicKey(hashBytes, sig);
 		System.out.println(NumberUtil.bytesToHexStr(pubBs));
     	
     }

@@ -33,12 +33,12 @@ public class Ecdsa {
 	 * Parameters for y^2 = x^3 + a*x + b (mod = P).
 	 * Base point G(x,y).
 	 * */
-	static BigInteger P;
-	static BigInteger N;
-	static BigInteger A;
-	static BigInteger B;
-	static BigInteger Gx;
-	static BigInteger Gy;
+	BigInteger P;
+	BigInteger N;
+	BigInteger A;
+	BigInteger B;
+	BigInteger Gx;
+	BigInteger Gy;
 	
 	/**
 	 * Initialize several numbers in range 0~9.
@@ -47,18 +47,33 @@ public class Ecdsa {
 			BigInteger.ZERO, BigInteger.ONE, new BigInteger("2"), new BigInteger("3"), new BigInteger("4"),
 			new BigInteger("5"), new BigInteger("6"), new BigInteger("7"), new BigInteger("8"), new BigInteger("9")
 	};
+	
+	protected Ecdsa(Curve curve) {
+		P = curve.P;
+		N = curve.N;
+		A = curve.A;
+		B = curve.B;
+		Gx = curve.Gx;
+		Gy = curve.Gy;
+	}
+	
+	/**
+	 * @param curve, the Elliptic Curves.
+	 * 
+	 * @return instance of algorithm.
+	 * */
+	public static Ecdsa from(Curve curve) {
+		return new Ecdsa(curve);
+	}
 
 	/**
 	 * @param privKeyBytes, private key content in bytes.
 	 * @param hashBytes, hash content in bytes.
-	 * @param curve, the Elliptic Curves.
 	 * 
 	 * @return signature string.
 	 * */
-	public static String sign(byte[] privKeyBytes, byte[] hashBytes, Curve curve) {
+	public String sign(byte[] privKeyBytes, byte[] hashBytes) {
 		try {
-			initParam(curve);
-			
 			BigInteger priv = NumberUtil.bytesToBigInt(privKeyBytes);
 			BigInteger hash = NumberUtil.bytesToBigInt(hashBytes);
 			byte[] v0 = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
@@ -94,7 +109,7 @@ public class Ecdsa {
 	 * 
 	 * @return if the hash content has been falsified, return false.
 	 * */
-	public static boolean verify(byte[] pubKeyBytes, byte[] hashBytes, String sig) {
+	public boolean verify(byte[] pubKeyBytes, byte[] hashBytes, String sig) {
 		if(sig.length() != 130)
 			throw new java.lang.RuntimeException("Invalid signature, "+sig);
 		if(pubKeyBytes.length != 64)
@@ -135,7 +150,7 @@ public class Ecdsa {
 	 * 
 	 * @return bytes, calculate public key bytes from private key bytes.
 	 * */
-	public static byte[] privateKeyToPublicKey(byte[] privKeyBytes) {
+	public byte[] privateKeyToPublicKey(byte[] privKeyBytes) {
 		BigInteger priv = NumberUtil.bytesToBigInt(privKeyBytes);
 		if(priv.compareTo(N) > 0)
 			throw new java.lang.RuntimeException("Invalid private key.");
@@ -156,7 +171,7 @@ public class Ecdsa {
 	 * 
 	 * @return bytes, calculate public key bytes from signature and hash.
 	 * */
-	public static byte[] recoverToPublicKey(byte[] hashBytes, String sig) {
+	public byte[] recoverToPublicKey(byte[] hashBytes, String sig) {
 		if(sig.length() != 130)
 			throw new java.lang.RuntimeException("Invalid signature, "+sig);
 		BigInteger _27 = new BigInteger("27"), _34 = new BigInteger("34");
@@ -195,7 +210,7 @@ public class Ecdsa {
 		return pubBytes;
 	}
 
-	static void initParam(Curve curve) {
+	void initParam(Curve curve) {
 		P = curve.P;
 		N = curve.N;
 		A = curve.A;
@@ -204,7 +219,7 @@ public class Ecdsa {
 		Gy = curve.Gy;
 	}
 	
-	static BigInteger quickPow(BigInteger n, BigInteger m, BigInteger mod) {
+	BigInteger quickPow(BigInteger n, BigInteger m, BigInteger mod) {
 		if(m.equals(NUM[1]))
 			return n.mod(mod);
 		BigInteger[] a = m.divideAndRemainder(NUM[2]);
@@ -214,7 +229,7 @@ public class Ecdsa {
 		return n.multiply(r).mod(mod);
 	}
 	
-	static BigInteger[] fastMultiply(BigInteger a0, BigInteger a1, BigInteger a2, BigInteger n) {
+	BigInteger[] fastMultiply(BigInteger a0, BigInteger a1, BigInteger a2, BigInteger n) {
 		if(a1.equals(NUM[0]) || n.equals(NUM[0]))
 			return new BigInteger[]{NUM[0],NUM[0],NUM[1]};
 		if(n.equals(NUM[1]))
@@ -232,7 +247,7 @@ public class Ecdsa {
 			throw new java.lang.RuntimeException("Invalid BigInteger. "+n.toString(16));
 	}
 	
-	static BigInteger[] fastDouble(BigInteger a0, BigInteger a1, BigInteger a2) {
+	BigInteger[] fastDouble(BigInteger a0, BigInteger a1, BigInteger a2) {
 		BigInteger ysq = a1.pow(2).mod(P);
 		BigInteger s = ysq.multiply(a0).multiply(NUM[4]).mod(P);
 		BigInteger m = a0.pow(2).multiply(NUM[3]).add(a2.pow(4).multiply(A)).mod(P);
@@ -243,7 +258,7 @@ public class Ecdsa {
 		return new BigInteger[] {nx, ny, nz};
 	}
 	
-	static BigInteger[] fastAdd(
+	BigInteger[] fastAdd(
 			BigInteger p0, BigInteger p1, BigInteger p2,
 			BigInteger q0, BigInteger q1, BigInteger q2
 			) {
