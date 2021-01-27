@@ -1,5 +1,5 @@
 # ECDSA
-## algorithm used in block chain
+## examples
     see the test package.
 ## supported  Elliptic Curves
     1.secp192k1
