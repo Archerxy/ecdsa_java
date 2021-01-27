@@ -186,7 +186,7 @@ public class Ecdsa {
 		BigInteger x = r;
 		BigInteger num = x.pow(3).add(x.multiply(A).add(B)).mod(P);
 		
-		BigInteger y = quickPow(num,P.add(NUM[1]).divide(NUM[4]),P);
+		BigInteger y = num.modPow(P.add(NUM[1]).divide(NUM[4]),P);
 		if(y.mod(NUM[2]).xor(v.mod(NUM[2])).equals(NUM[0]))
 			y = P.subtract(y);
 		
