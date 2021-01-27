@@ -9,4 +9,4 @@
     5.secp256k1
     6.secp256r1
 ## reference
-    [https://www.secg.org/sec2-v2.pdf](https://www.secg.org/sec2-v2.pdf)
+    https://www.secg.org/sec2-v2.pdf
