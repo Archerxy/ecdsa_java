@@ -3,12 +3,10 @@ package archer.test;
 import archer.algorithm.ecdsa.*;
 
 public class EcdsaTest {
-	
 	public static void main(String[] args) {
 		secpTest();
 	}
     
-
     public static void secpTest() {
     	String priKeyHex = "43EFA45ABDA29F5E4A7FEFABC3DACF7ACFF4EAAF861AF5DFFF3AD1F6543F3ACA";
     	String hashStr = "FAE432CE3DDAFCE3457FEFABC3DACF7ACFF4EAAF861AF5DFFF3AFACEB56D4AA4";
@@ -20,7 +18,6 @@ public class EcdsaTest {
     	
 		byte[] pubBytes = Ecdsa.privateKeyToPublicKey(privBytes);
 		System.out.println(NumberUtil.bytesToHexStr(pubBytes));
-		
 		
 		System.out.println(Ecdsa.verify(pubBytes, hashBytes, sig));
 		
