@@ -3,8 +3,36 @@ package archer.algorithm.ecdsa;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * 
+ * Copyright (c) 2021 Archerxy
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * @author archer
+ *
+ */
 
 public class Ecdsa {
+	/**
+	 * Parameters for y^2 = x^3 + a*x + b (mod = P).
+	 * Base point G(x,y).
+	 * */
 	static BigInteger P;
 	static BigInteger N;
 	static BigInteger A;
@@ -12,23 +40,33 @@ public class Ecdsa {
 	static BigInteger Gx;
 	static BigInteger Gy;
 	
+	/**
+	 * Initialize several numbers in range 0~9.
+	 * */
 	static final BigInteger[] NUM = {
 			BigInteger.ZERO, BigInteger.ONE, new BigInteger("2"), new BigInteger("3"), new BigInteger("4"),
 			new BigInteger("5"), new BigInteger("6"), new BigInteger("7"), new BigInteger("8"), new BigInteger("9")
 	};
 
-	public static String sign(byte[] privBytes, byte[] hashBytes, Curve curve) {
+	/**
+	 * @param privKeyBytes, private key content in bytes.
+	 * @param hashBytes, hash content in bytes.
+	 * @param curve, the Elliptic Curves.
+	 * 
+	 * @return signature string.
+	 * */
+	public static String sign(byte[] privKeyBytes, byte[] hashBytes, Curve curve) {
 		try {
 			initParam(curve);
 			
-			BigInteger priv = NumberUtil.bytesToBigInt(privBytes);
+			BigInteger priv = NumberUtil.bytesToBigInt(privKeyBytes);
 			BigInteger hash = NumberUtil.bytesToBigInt(hashBytes);
 			byte[] v0 = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 			byte[] k0 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 			
-			byte[] k1 = HashUtil.hmac(k0, concatBytes(v0, new byte[] {0}, privBytes, hashBytes));
+			byte[] k1 = HashUtil.hmac(k0, concatBytes(v0, new byte[] {0}, privKeyBytes, hashBytes));
 			byte[] v1 = HashUtil.hmac(k1, v0);
-			byte[] k2 = HashUtil.hmac(k1, concatBytes(v1, new byte[] {1}, privBytes, hashBytes));
+			byte[] k2 = HashUtil.hmac(k1, concatBytes(v1, new byte[] {1}, privKeyBytes, hashBytes));
 			byte[] v2 = HashUtil.hmac(k2, v1);
 
 			BigInteger k = new BigInteger(HashUtil.hmac(k2, v2));
@@ -48,6 +86,14 @@ public class Ecdsa {
 		}
 	}
 	
+
+	/**
+	 * @param pubKeyBytes, public key content in bytes.
+	 * @param hashBytes, hash content in bytes.
+	 * @param sig, signature content.
+	 * 
+	 * @return if the hash content has been falsified, return false.
+	 * */
 	public static boolean verify(byte[] pubKeyBytes, byte[] hashBytes, String sig) {
 		if(sig.length() != 130)
 			throw new java.lang.RuntimeException("Invalid signature, "+sig);
@@ -83,6 +129,12 @@ public class Ecdsa {
 		return r.equals(gx);
 	}
 	
+
+	/**
+	 * @param privKeyBytes, private key content in bytes.
+	 * 
+	 * @return bytes, calculate public key bytes from private key bytes.
+	 * */
 	public static byte[] privateKeyToPublicKey(byte[] privKeyBytes) {
 		BigInteger priv = NumberUtil.bytesToBigInt(privKeyBytes);
 		if(priv.compareTo(N) > 0)
@@ -97,7 +149,13 @@ public class Ecdsa {
 		System.arraycopy(yBs, 0, pubKeyBytes, 32, yBs.length);
 		return pubKeyBytes;
 	}
-	
+
+	/**
+	 * @param hashBytes, hash content in bytes.
+	 * @param sig, signature content.
+	 * 
+	 * @return bytes, calculate public key bytes from signature and hash.
+	 * */
 	public static byte[] recoverToPublicKey(byte[] hashBytes, String sig) {
 		if(sig.length() != 130)
 			throw new java.lang.RuntimeException("Invalid signature, "+sig);

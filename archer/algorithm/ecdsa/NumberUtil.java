@@ -3,7 +3,33 @@ package archer.algorithm.ecdsa;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+/**
+ * 
+ * Copyright (c) 2021 Archerxy
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * @author archer
+ *
+ */
+
 public class NumberUtil {
+	
 	public static final byte DEFAULT_BYTE = 0x7f;
 	
 	public static final int[] hexToByteTable = new int[128];
@@ -20,6 +46,11 @@ public class NumberUtil {
     		hexToByteTable[byteToHexTable[i]] = i;
     }
 	
+    /**
+	 * @param hexStr, hex number in string.
+	 * 
+	 * @return bytes, number in bytes.
+	 * */
 	public static byte[] hexStrToBytes(String hexStr) {
 		if(null == hexStr || hexStr.isEmpty())
 			return new byte[0];
@@ -37,7 +68,12 @@ public class NumberUtil {
 		}
 		return out;
 	}
-	
+
+    /**
+	 * @param bs, number in bytes.
+	 * 
+	 * @return string, hex number in string.
+	 * */
 	public static String bytesToHexStr(byte[] bs) {
 		if(null == bs || bs.length == 0)
 			return "";
@@ -52,7 +88,12 @@ public class NumberUtil {
 		}
 		return sb.toString();
 	}
-	
+
+    /**
+	 * @param bs, number in bytes.
+	 * 
+	 * @return java.math.BigInteger.
+	 * */
 	public static BigInteger bytesToBigInt(byte[] bs) {
 		if(null == bs || bs.length == 0)
 			return BigInteger.ZERO;
@@ -65,7 +106,12 @@ public class NumberUtil {
 		}
 		return num;
 	}
-	
+
+    /**
+	 * @param n, java.math.BigInteger.
+	 * 
+	 * @return bytes, number in bytes.
+	 * */
 	public static byte[] bigIntToBytes(BigInteger n) {
 		byte[] bs = n.toByteArray();
 		if(bs[0] == 0)
