@@ -2,8 +2,11 @@ package archer.test;
 
 import archer.algorithm.ecdsa.*;
 
+/**
+ * @author archer
+ * */
 public class EcdsaTest {
-	public static void main(String[] args) {
+	public static void main(String[] argvs) {
 		secpTest();
 	}
     
