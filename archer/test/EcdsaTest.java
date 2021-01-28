@@ -6,9 +6,10 @@ import archer.algorithm.ecdsa.*;
  * @author archer
  * */
 public class EcdsaTest {
-	public static void main(String[] argvs) {
-		secpTest();
-	}
+	
+    public static void main(String[] argvs) {
+    	secpTest();
+    }
     
     public static void secpTest() {
     	String priKeyHex = "43EFA45ABDA29F5E4A7FEFABC3DACF7ACFF4EAAF861AF5DFFF3AD1F6543F3ACA";
