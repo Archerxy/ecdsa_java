@@ -209,15 +209,6 @@ public class Ecdsa {
 		System.arraycopy(rightBs, 0, pubBytes, leftBs.length, rightBs.length);
 		return pubBytes;
 	}
-
-	void initParam(Curve curve) {
-		P = curve.P;
-		N = curve.N;
-		A = curve.A;
-		B = curve.B;
-		Gx = curve.Gx;
-		Gy = curve.Gy;
-	}
 	
 	BigInteger quickPow(BigInteger n, BigInteger m, BigInteger mod) {
 		if(m.equals(NUM[1]))
