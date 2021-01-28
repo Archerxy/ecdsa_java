@@ -23,7 +23,6 @@ public class EcdsaTest {
     	String sig = secp256k1.sign(privBytes, hashBytes);
     	System.out.println(sig);
     	
-
     	byte[] pubBytes = secp256k1.privateKeyToPublicKey(privBytes);
     	System.out.println(NumberUtil.bytesToHexStr(pubBytes));
 		
