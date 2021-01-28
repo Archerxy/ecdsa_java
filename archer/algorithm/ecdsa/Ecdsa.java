@@ -58,7 +58,7 @@ public class Ecdsa {
 	}
 	
 	/**
-	 * @param curve, the Elliptic Curves.
+	 * @param curve the Elliptic Curves.
 	 * 
 	 * @return instance of algorithm.
 	 * */
@@ -67,8 +67,8 @@ public class Ecdsa {
 	}
 
 	/**
-	 * @param privKeyBytes, private key content in bytes.
-	 * @param hashBytes, hash content in bytes.
+	 * @param privKeyBytes private key content bytes.
+	 * @param hashBytes hash content bytes.
 	 * 
 	 * @return signature string.
 	 * */
@@ -103,9 +103,9 @@ public class Ecdsa {
 	
 
 	/**
-	 * @param pubKeyBytes, public key content in bytes.
-	 * @param hashBytes, hash content in bytes.
-	 * @param sig, signature content.
+	 * @param pubKeyBytes public key content bytes.
+	 * @param hashBytes hash content bytes.
+	 * @param sig signature content.
 	 * 
 	 * @return if the hash content has been falsified, return false.
 	 * */
@@ -146,9 +146,9 @@ public class Ecdsa {
 	
 
 	/**
-	 * @param privKeyBytes, private key content in bytes.
+	 * @param privKeyBytes private key content bytes.
 	 * 
-	 * @return bytes, calculate public key bytes from private key bytes.
+	 * @return bytes calculate public key bytes from private key bytes.
 	 * */
 	public byte[] privateKeyToPublicKey(byte[] privKeyBytes) {
 		BigInteger priv = NumberUtil.bytesToBigInt(privKeyBytes);
@@ -166,10 +166,10 @@ public class Ecdsa {
 	}
 
 	/**
-	 * @param hashBytes, hash content in bytes.
-	 * @param sig, signature content.
+	 * @param hashBytes hash content bytes.
+	 * @param sig signature content.
 	 * 
-	 * @return bytes, calculate public key bytes from signature and hash.
+	 * @return bytes calculate public key bytes from signature and hash.
 	 * */
 	public byte[] recoverToPublicKey(byte[] hashBytes, String sig) {
 		if(sig.length() != 130)

@@ -47,9 +47,9 @@ public class NumberUtil {
     }
 	
     /**
-	 * @param hexStr, hex number in string.
+	 * @param hexStr hex number string.
 	 * 
-	 * @return bytes, number in bytes.
+	 * @return bytes number bytes.
 	 * */
 	public static byte[] hexStrToBytes(String hexStr) {
 		if(null == hexStr || hexStr.isEmpty())
@@ -70,9 +70,9 @@ public class NumberUtil {
 	}
 
     /**
-	 * @param bs, number in bytes.
+	 * @param bs number bytes.
 	 * 
-	 * @return string, hex number in string.
+	 * @return string hex number in string.
 	 * */
 	public static String bytesToHexStr(byte[] bs) {
 		if(null == bs || bs.length == 0)
@@ -90,7 +90,7 @@ public class NumberUtil {
 	}
 
     /**
-	 * @param bs, number in bytes.
+	 * @param bs number bytes.
 	 * 
 	 * @return java.math.BigInteger.
 	 * */
@@ -108,9 +108,9 @@ public class NumberUtil {
 	}
 
     /**
-	 * @param n, java.math.BigInteger.
+	 * @param n java.math.BigInteger.
 	 * 
-	 * @return bytes, number in bytes.
+	 * @return bytes number bytes.
 	 * */
 	public static byte[] bigIntToBytes(BigInteger n) {
 		byte[] bs = n.toByteArray();

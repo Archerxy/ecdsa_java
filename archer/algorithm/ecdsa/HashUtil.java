@@ -52,10 +52,10 @@ public class HashUtil {
 	}
 
 	/**
-	 * @param privKey, private key content in bytes.
-	 * @param hash, hash content in bytes.
+	 * @param privKey private key content bytes.
+	 * @param hash hash content in bytes.
 	 * 
-	 * @return bytes, get mystic hash bytes from private key and hash content.
+	 * @return bytes get mystic hash bytes from private key and hash content.
 	 * */
 	public static byte[] hmac(byte[] privKey, byte[] hash) throws NoSuchAlgorithmException, CloneNotSupportedException {
 		byte[] priv = new byte[64];
