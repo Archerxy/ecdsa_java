@@ -40,6 +40,9 @@ public class Ecdsa {
 	BigInteger Gx;
 	BigInteger Gy;
 	
+
+	CLGRandom r;
+	
 	/**
 	 * Initialize several numbers in range 0~9.
 	 * */
@@ -55,6 +58,8 @@ public class Ecdsa {
 		B = curve.B;
 		Gx = curve.Gx;
 		Gy = curve.Gy;
+
+		r = new CLGRandom();
 	}
 	
 	/**
@@ -76,8 +81,8 @@ public class Ecdsa {
 		try {
 			BigInteger priv = NumberUtil.bytesToBigInt(privKeyBytes);
 			BigInteger hash = NumberUtil.bytesToBigInt(hashBytes);
-			byte[] v0 = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-			byte[] k0 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+			byte[] v0 = r.randomBytes(32);
+			byte[] k0 = r.randomBytes(32);
 			
 			byte[] k1 = HashUtil.hmac(k0, concatBytes(v0, new byte[] {0}, privKeyBytes, hashBytes));
 			byte[] v1 = HashUtil.hmac(k1, v0);
