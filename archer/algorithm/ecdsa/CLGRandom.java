@@ -47,7 +47,7 @@ public class CLGRandom {
 	 * */
 	public int nextInt(int bound) {
 		if(bound <= 0)
-            throw new IllegalArgumentException("bound must be positive");
+			throw new IllegalArgumentException("bound must be positive");
 		return (int) (crand()*bound);
 	}
 	
