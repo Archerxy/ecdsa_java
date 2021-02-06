@@ -57,7 +57,7 @@ public class HashUtil {
 	 * 
 	 * @return bytes get mystic hash bytes from private key and hash content.
 	 * */
-	public static byte[] hmac(byte[] privKey, byte[] hash) throws NoSuchAlgorithmException, CloneNotSupportedException {
+	public static byte[] hmac(byte[] privKey, byte[] hash) throws NoSuchAlgorithmException {
 		byte[] priv = new byte[64];
 		
 		System.arraycopy(privKey, 0, priv, 0, 32);
@@ -69,8 +69,7 @@ public class HashUtil {
 		inner.update(translate(priv,_36));
 		inner.update(hash);
 		
-		MessageDigest h = (MessageDigest) outer.clone();
-		h.update(inner.digest());
-		return h.digest();
+		outer.update(inner.digest());
+		return outer.digest();
 	}
 }

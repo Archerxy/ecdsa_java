@@ -105,7 +105,7 @@ public class Ecdsa {
 			while(ss.length() < 16)
 				ss = '0'+ss;
 			return rs+ss+'0'+v.toString(16);
-		} catch(NoSuchAlgorithmException | CloneNotSupportedException e) {
+		} catch(NoSuchAlgorithmException e) {
 			throw new java.lang.RuntimeException(e);
 		}
 	}
