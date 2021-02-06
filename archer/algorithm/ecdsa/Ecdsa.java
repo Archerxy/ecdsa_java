@@ -100,7 +100,11 @@ public class Ecdsa {
 			BigInteger s = sRaw.multiply(NUM[2]).compareTo(N) < 0?sRaw:N.subtract(sRaw);
 				
 			BigInteger v = y.mod(NUM[2]).xor(sRaw.multiply(NUM[2]).compareTo(N) < 0?y.mod(NUM[2]):NUM[1]);
-			return r.toString(16)+s.toString(16)+"0"+v.toString(16);
+			
+			String rs = r.toString(16), ss = s.toString(16);
+			while(ss.length() < 16)
+				ss = '0'+ss;
+			return rs+ss+'0'+v.toString(16);
 		} catch(NoSuchAlgorithmException | CloneNotSupportedException e) {
 			throw new java.lang.RuntimeException(e);
 		}
